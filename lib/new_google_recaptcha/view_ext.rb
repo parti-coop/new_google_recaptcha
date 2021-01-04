@@ -3,39 +3,35 @@ module NewGoogleRecaptcha
     include ActionView::Helpers::TagHelper
 
     def include_recaptcha_js
-      generate_recaptcha_callback + javascript_include_tag("https://www.google.com/recaptcha/api.js?render=#{NewGoogleRecaptcha.site_key}&onload=newGoogleRecaptchaCallback", defer: true)
+      raw %Q{
+        <script src="https://www.google.com/recaptcha/api.js?render=#{NewGoogleRecaptcha.site_key}"></script>
+      }
     end
 
-    def recaptcha_action(action)
+    def recaptcha_action(action, **options)
       id = "new_google_recaptcha_token_#{SecureRandom.hex(10)}"
-      hidden_field_tag(
-        'new_recaptcha_token',
-        nil,
-        readonly: true,
-        'data-google-recaptcha-action' => action,
-        id: id
-      )
+      raw %Q{
+        <input name="new_google_recaptcha_token" type="hidden" id="#{id}" #{
+          options.map do |key, value|
+            "#{key}=\"#{h(value)}\""
+          end.join(' ')
+        }/>
+        <script>
+          async function executeRecaptchaFor#{sanitize_action_for_js(action)}Async() {
+            return new Promise(function(resolve, reject) {
+              grecaptcha.ready(async function() {
+                resolve(await grecaptcha.execute('#{NewGoogleRecaptcha.site_key}', {action: '#{action}'}));
+              });
+            });
+          }
+        </script>
+      }
     end
 
     private
 
-    def generate_recaptcha_callback
-      javascript_tag %(
-        function newGoogleRecaptchaCallback () {
-          grecaptcha.ready(function () {
-            var elements = document.querySelectorAll('[data-google-recaptcha-action]')
-            Array.prototype.slice.call(elements).forEach(function (el) {
-              var action = el.dataset.googleRecaptchaAction
-              if (!action) return
-              grecaptcha
-                .execute("#{NewGoogleRecaptcha.site_key}", { action: action })
-                .then(function (token) {
-                  el.value = token
-                })
-            })
-          })
-        }
-      )
+    def sanitize_action_for_js(action)
+      action.to_s.gsub(/\W/, '_').split(/\/|_/).map(&:capitalize).join
     end
   end
 end

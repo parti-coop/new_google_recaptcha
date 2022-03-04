@@ -13,31 +13,49 @@ module NewGoogleRecaptcha
 
     def recaptcha_action(action)
       id = "new_google_recaptcha_token_#{SecureRandom.hex(10)}"
-      hidden_field_tag(
-        'new_google_recaptcha_token',
-        nil,
-        readonly: true,
-        'data-google-recaptcha-action' => action,
-        id: id
-      )
+      raw %Q{
+        <input
+          name="new_google_recaptcha_token"
+          type="hidden" id="#{id}"
+          readonly="true"
+          data-google-recaptcha-action="#{action}"
+        />
+        <script>
+          if (grecaptcha) {
+            grecaptcha.ready(function() {
+              grecaptcha
+                .execute("#{NewGoogleRecaptcha.site_key}", {action: "#{action}"})
+                .then(function(token) {
+                  document.getElementById("#{id}").value = token
+                })
+            })
+          }
+        </script>
+      }
     end
 
     private
 
     def generate_recaptcha_callback
       javascript_tag %(
-        function newGoogleRecaptchaCallback () {
-          grecaptcha.ready(function () {
-            var elements = document.querySelectorAll('[data-google-recaptcha-action]')
-            Array.prototype.slice.call(elements).forEach(function (el) {
-              var action = el.dataset.googleRecaptchaAction
-              if (!action) return
-              grecaptcha
-                .execute("#{NewGoogleRecaptcha.site_key}", { action: action })
-                .then(function (token) {
-                  el.value = token
-                })
-            })
+        function newGoogleRecaptchaCallback() {
+          grecaptcha.ready(function() {
+            function getReCaptcha() {
+              var elements = document.querySelectorAll('[data-google-recaptcha-action]')
+              Array.prototype.slice.call(elements).forEach(function (el) {
+                var action = el.dataset.googleRecaptchaAction
+                if (!action) return
+                grecaptcha
+                  .execute("#{NewGoogleRecaptcha.site_key}", { action: action })
+                  .then(function (token) {
+                    el.value = token
+                  })
+              })
+            }
+            getReCaptcha()
+            setInterval(function() {
+              getReCaptcha()
+            }, 100000)
           })
         }
       )

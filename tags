@@ -1,0 +1,26 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+NewGoogleRecaptcha	lib/new_google_recaptcha.rb	/^module NewGoogleRecaptcha$/;"	m
+NewGoogleRecaptcha	lib/new_google_recaptcha/railtie.rb	/^module NewGoogleRecaptcha$/;"	m
+NewGoogleRecaptcha	lib/new_google_recaptcha/validator.rb	/^module NewGoogleRecaptcha$/;"	m
+NewGoogleRecaptcha	lib/new_google_recaptcha/version.rb	/^module NewGoogleRecaptcha$/;"	m
+NewGoogleRecaptcha	lib/new_google_recaptcha/view_ext.rb	/^module NewGoogleRecaptcha$/;"	m
+NewGoogleRecaptchaGenerator	lib/generators/new_google_recaptcha_generator.rb	/^class NewGoogleRecaptchaGenerator < Rails::Generators::NamedBase$/;"	c
+Railtie	lib/new_google_recaptcha/railtie.rb	/^  class Railtie < ::Rails::Railtie$/;"	c	class:NewGoogleRecaptcha
+Validator	lib/new_google_recaptcha/validator.rb	/^  class Validator$/;"	c	class:NewGoogleRecaptcha
+ViewExt	lib/new_google_recaptcha/view_ext.rb	/^  module ViewExt$/;"	m	class:NewGoogleRecaptcha
+call	lib/new_google_recaptcha/validator.rb	/^    def call$/;"	f	class:NewGoogleRecaptcha.Validator
+compose_uri	lib/new_google_recaptcha.rb	/^  def self.compose_uri(token)$/;"	F	class:NewGoogleRecaptcha
+copy_initializer	lib/generators/new_google_recaptcha_generator.rb	/^  def copy_initializer$/;"	f	class:NewGoogleRecaptchaGenerator
+generate_recaptcha_callback	lib/new_google_recaptcha/view_ext.rb	/^    def generate_recaptcha_callback$/;"	f	class:NewGoogleRecaptcha.ViewExt
+get_humanity_detailed	lib/new_google_recaptcha.rb	/^  def self.get_humanity_detailed(token, action, minimum_score = self.minimum_score, model = nil)$/;"	F	class:NewGoogleRecaptcha
+human	lib/new_google_recaptcha.rb	/^  def self.human?(token, action, minimum_score = self.minimum_score, model = nil)$/;"	F	class:NewGoogleRecaptcha
+i18n	lib/new_google_recaptcha.rb	/^  def self.i18n(key, default)$/;"	F	class:NewGoogleRecaptcha
+include_recaptcha_js	lib/new_google_recaptcha/view_ext.rb	/^    def include_recaptcha_js(opts = {})$/;"	f	class:NewGoogleRecaptcha.ViewExt
+initialize	lib/new_google_recaptcha/validator.rb	/^    def initialize(token:, action:, minimum_score:)$/;"	f	class:NewGoogleRecaptcha.Validator
+recaptcha_action	lib/new_google_recaptcha/view_ext.rb	/^    def recaptcha_action(action)$/;"	f	class:NewGoogleRecaptcha.ViewExt
+setup	lib/new_google_recaptcha.rb	/^  def self.setup$/;"	F	class:NewGoogleRecaptcha
